@@ -2,7 +2,7 @@
 
 #alternative way of loading and installing libraries quickely ----
 load.libraries <- c("Hmisc", "corrplot", "Amelia", "mice", "lattice", "missForest", 
-                    "ggplot2", "caret", "mlr", "dplyr", "VIM", "sampling", "Boruta")
+                    "ggplot2", "caret", "mlr", "dplyr", "VIM", "sampling", "Boruta", "splitstackshape")
                     
 install.lib <- load.libraries[!load.libraries %in% installed.packages()]
 for(libs in install.lib) install.packages(libs, dependences = TRUE)
@@ -233,9 +233,15 @@ axis(side = 1,las=2,labels = names(Labels), at = 1:ncol(boruta.train$ImpHistory)
             paste(getwd(), "sample_submission_3.csv", sep = "/"),
             row.names = FALSE)
   
-  sample <- strata(completed.train, 
-                   size = 50,
-                   method = "srswor")
+  
+  #split train set to train and test ----
+  set.seed(5)
+  response <- completed.train[, "SalePrice"]
+  train_set_new <- createDataPartition(response, p = 0.4,list = FALSE)
+  
+  
+  sample_test <- completed.train[train_set_new, ]
+  sample_train <- completed.train[-train_set_new, ]
 
 
 
