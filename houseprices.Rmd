@@ -1,0 +1,38 @@
+---
+title: "houseprices"
+output: html_document
+---
+
+
+```{r}
+
+install.packages(c("Hmisc", "corrplot", "Amelia", "mice", "lattice", "missForest"))
+install.packages(c("ggplot2", "caret", "mlr"))
+install.packages("dplyr")
+
+require(ggplot2)
+require(caret)
+require(mlr)
+require(Hmisc)
+require(corrplot)
+require(Amelia)
+require(mice)
+require(ggplot2)
+require(lattice)
+require(missForest)
+require(dplyr)
+
+
+```
+
+```{r setup, include=FALSE}
+train <- read.csv("train.csv")
+test <- read.csv("test.csv")
+
+describe(train)
+
+train$Alley[is.na(train$Alley)] %>% dplyr::count()
+
+
+```
+
